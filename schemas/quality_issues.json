@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0.0",
+  "table": "quality_issues",
+  "primary_key": "issue_id",
+  "foreign_keys": {},
+  "input_allowed": false,
+  "fields": {
+    "issue_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "entity_type": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "entity_id": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "field_name": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "issue_code": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "severity": {
+      "type": "text",
+      "nullable": true,
+      "enum": [
+        "error",
+        "warning"
+      ],
+      "temporal_scope": "audit"
+    },
+    "resolution_status": {
+      "type": "text",
+      "nullable": true,
+      "enum": [
+        "pending",
+        "resolved",
+        "accepted"
+      ],
+      "temporal_scope": "audit"
+    },
+    "resolution_note": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "evidence_source_id": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    }
+  }
+}

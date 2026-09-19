@@ -1,0 +1,75 @@
+{
+  "schema_version": "1.0.0",
+  "table": "outcome_history",
+  "primary_key": "outcome_event_id",
+  "foreign_keys": {},
+  "input_allowed": false,
+  "fields": {
+    "outcome_event_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "opportunity_id": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "previous_status": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "new_status": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "converted": {
+      "type": "bool",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "outcome_at": {
+      "type": "time",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "recorded_at": {
+      "type": "time",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "source_id": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "reason": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "supersedes_event_id": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "details_json": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    }
+  }
+}

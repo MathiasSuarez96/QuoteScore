@@ -1,0 +1,2 @@
+# Entrega 1: biblioteca estándar de Python; sin dependencias externas.
+# Compatible con Python >= 3.11. Versión comprobada: ver docs/verification.md.

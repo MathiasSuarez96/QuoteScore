@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0.0",
+  "table": "transactions",
+  "primary_key": "transaction_id",
+  "foreign_keys": {
+    "opportunity_id": "opportunities",
+    "related_transaction_id": "transactions",
+    "source_id": "sources"
+  },
+  "input_allowed": true,
+  "fields": {
+    "transaction_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "opportunity_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "transaction_date": {
+      "type": "time",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "transaction_type": {
+      "type": "text",
+      "nullable": false,
+      "enum": [
+        "sale",
+        "add_on",
+        "refund",
+        "cancellation",
+        "adjustment"
+      ],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "product_type": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "amount": {
+      "type": "decimal",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "currency": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "amount_usd": {
+      "type": "decimal",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "exchange_rate": {
+      "type": "decimal",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "exchange_rate_date": {
+      "type": "date",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "related_transaction_id": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "source_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    }
+  }
+}

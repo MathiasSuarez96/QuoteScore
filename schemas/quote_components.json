@@ -1,0 +1,179 @@
+{
+  "schema_version": "1.0.0",
+  "table": "quote_components",
+  "primary_key": "component_id",
+  "foreign_keys": {
+    "option_id": "quote_options",
+    "source_id": "sources"
+  },
+  "input_allowed": true,
+  "fields": {
+    "component_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "option_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "component_order": {
+      "type": "integer",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "component_type": {
+      "type": "text",
+      "nullable": false,
+      "enum": [
+        "flight",
+        "hotel",
+        "transfer",
+        "insurance",
+        "excursion",
+        "event_ticket",
+        "other"
+      ],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "origin": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "destination": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "start_date": {
+      "type": "date",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "end_date": {
+      "type": "date",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "nights": {
+      "type": "integer",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "provider": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "hotel_category": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "room_type": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "meal_plan": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "passengers_covered": {
+      "type": "integer",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "flight_direction": {
+      "type": "text",
+      "nullable": true,
+      "enum": [
+        "outbound",
+        "inbound",
+        "other"
+      ],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "number_of_connections": {
+      "type": "integer",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "max_connection_minutes": {
+      "type": "integer",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "overnight_connection": {
+      "type": "bool",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "personal_item": {
+      "type": "bool",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "carry_on": {
+      "type": "bool",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "checked_bag": {
+      "type": "bool",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "amount": {
+      "type": "decimal",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "currency": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "price_scope": {
+      "type": "text",
+      "nullable": true,
+      "enum": [
+        "group",
+        "per_person",
+        "component",
+        "unknown"
+      ],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "source_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    }
+  }
+}

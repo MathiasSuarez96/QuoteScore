@@ -1,0 +1,2 @@
+transaction_id,opportunity_id,transaction_date,transaction_type,product_type,amount,currency,amount_usd,exchange_rate,exchange_rate_date,related_transaction_id,source_id
+TX_DEMO_1,OP_DEMO_1,2025-02-06,sale,flight_only,500,USD,,,,,SRC_DEMO

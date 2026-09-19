@@ -1,0 +1,130 @@
+{
+  "schema_version": "1.0.0",
+  "table": "quotes",
+  "primary_key": "quote_id",
+  "foreign_keys": {
+    "opportunity_id": "opportunities",
+    "source_id": "sources"
+  },
+  "input_allowed": true,
+  "fields": {
+    "quote_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "opportunity_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "sent_at": {
+      "type": "time",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "date_precision": {
+      "type": "text",
+      "nullable": false,
+      "enum": [
+        "day",
+        "timestamp",
+        "unknown"
+      ],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "version_number": {
+      "type": "integer",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "first_priced_quote_status": {
+      "type": "text",
+      "nullable": false,
+      "enum": [
+        "confirmed",
+        "candidate",
+        "unknown"
+      ],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "channel_at_quote": {
+      "type": "text",
+      "nullable": true,
+      "enum": [
+        "web",
+        "whatsapp",
+        "branch",
+        "phone",
+        "other"
+      ],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "lead_source_at_quote": {
+      "type": "text",
+      "nullable": true,
+      "enum": [
+        "santander_web",
+        "referral",
+        "other"
+      ],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "request_type_at_quote": {
+      "type": "text",
+      "nullable": true,
+      "enum": [
+        "quote_request",
+        "purchase_error",
+        "other"
+      ],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "preselected_product_at_quote": {
+      "type": "bool",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "repeat_customer_at_quote": {
+      "type": "bool",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "reactivated_lead_at_quote": {
+      "type": "bool",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "date_flexibility_at_quote": {
+      "type": "bool",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "credit_available_at_quote": {
+      "type": "bool",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "financing_available_at_quote": {
+      "type": "bool",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "source_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    }
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "table": "sources",
+  "primary_key": "source_id",
+  "foreign_keys": {},
+  "input_allowed": true,
+  "fields": {
+    "source_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "source_type": {
+      "type": "text",
+      "nullable": false,
+      "enum": [
+        "summary",
+        "pdf",
+        "chat",
+        "sale_record",
+        "user_confirmation",
+        "artificial",
+        "other"
+      ],
+      "temporal_scope": "audit"
+    },
+    "sanitized_reference": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "document_date": {
+      "type": "date",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "imported_at": {
+      "type": "time",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "evidence_level": {
+      "type": "text",
+      "nullable": false,
+      "enum": [
+        "supplied_summary",
+        "original_verified",
+        "user_confirmation",
+        "artificial"
+      ],
+      "temporal_scope": "audit"
+    }
+  }
+}

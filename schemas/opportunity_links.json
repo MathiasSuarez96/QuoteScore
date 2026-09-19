@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0.0",
+  "table": "opportunity_links",
+  "primary_key": "link_id",
+  "foreign_keys": {},
+  "input_allowed": false,
+  "fields": {
+    "link_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "alias_opportunity_id": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "canonical_opportunity_id": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "decision_id": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    }
+  }
+}

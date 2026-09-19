@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0.0",
+  "table": "field_evidence",
+  "primary_key": "evidence_id",
+  "foreign_keys": {
+    "source_id": "sources"
+  },
+  "input_allowed": true,
+  "fields": {
+    "evidence_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "entity_type": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "entity_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "field_name": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "source_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "locator": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "known_at": {
+      "type": "time",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "time_precision": {
+      "type": "text",
+      "nullable": false,
+      "enum": [
+        "day",
+        "timestamp",
+        "unknown"
+      ],
+      "temporal_scope": "audit"
+    },
+    "review_status": {
+      "type": "text",
+      "nullable": false,
+      "enum": [
+        "pending",
+        "verified",
+        "not_applicable"
+      ],
+      "temporal_scope": "audit"
+    }
+  }
+}

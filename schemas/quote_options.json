@@ -1,0 +1,161 @@
+{
+  "schema_version": "1.0.0",
+  "table": "quote_options",
+  "primary_key": "option_id",
+  "foreign_keys": {
+    "quote_id": "quotes",
+    "source_id": "sources"
+  },
+  "input_allowed": true,
+  "fields": {
+    "option_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "quote_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "option_order": {
+      "type": "integer",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "product_scope": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "origin": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "destination_summary": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "destination_count": {
+      "type": "integer",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "departure_date": {
+      "type": "date",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "return_date": {
+      "type": "date",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "nights": {
+      "type": "integer",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "passengers": {
+      "type": "integer",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "adults": {
+      "type": "integer",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "children": {
+      "type": "integer",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "currency": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "price_scope": {
+      "type": "text",
+      "nullable": false,
+      "enum": [
+        "group",
+        "per_person",
+        "component",
+        "unknown"
+      ],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "gross_price": {
+      "type": "decimal",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "discount_amount": {
+      "type": "decimal",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "net_price": {
+      "type": "decimal",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "quoted_price_per_person": {
+      "type": "decimal",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "points_available": {
+      "type": "integer",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "points_proposed": {
+      "type": "integer",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "points_value_quoted": {
+      "type": "decimal",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "quoted_cash_balance": {
+      "type": "decimal",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    },
+    "source_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "initial_requires_evidence"
+    }
+  }
+}

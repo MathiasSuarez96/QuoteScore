@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "table": "load_runs",
+  "primary_key": "run_id",
+  "foreign_keys": {},
+  "input_allowed": false,
+  "fields": {
+    "run_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "schema_version": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "rules_version": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "input_fingerprint": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "generated_at": {
+      "type": "time",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "cutoff": {
+      "type": "date",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "input_counts": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "output_counts": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    }
+  }
+}

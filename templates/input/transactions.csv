@@ -1,0 +1,1 @@
+transaction_id,opportunity_id,transaction_date,transaction_type,product_type,amount,currency,amount_usd,exchange_rate,exchange_rate_date,related_transaction_id,source_id

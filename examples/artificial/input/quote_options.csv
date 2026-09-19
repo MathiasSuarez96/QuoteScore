@@ -1,0 +1,4 @@
+option_id,quote_id,option_order,product_scope,origin,destination_summary,destination_count,departure_date,return_date,nights,passengers,adults,children,currency,price_scope,gross_price,discount_amount,net_price,quoted_price_per_person,points_available,points_proposed,points_value_quoted,quoted_cash_balance,source_id
+OPT_DEMO_1,Q_DEMO_1,1,package,,Destino ficticio 1,1,2025-05-12,2025-05-16,4,2,2,0,USD,group,800,40,760,,0,0,0,,SRC_DEMO
+OPT_DEMO_2,Q_DEMO_2,1,hotel_only,,Destino ficticio 2,1,2025-05-12,2025-05-16,4,3,2,0,USD,unknown,800,40,,,0,0,0,,SRC_DEMO
+OPT_DEMO_3,Q_DEMO_3,1,hotel_only,,Destino ficticio 3,1,2025-05-12,2025-05-16,4,2,2,0,USD,group,800,40,760,,0,0,0,,SRC_DEMO

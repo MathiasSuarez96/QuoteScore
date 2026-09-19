@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0.0",
+  "table": "review_queue",
+  "primary_key": "case_id",
+  "foreign_keys": {},
+  "input_allowed": false,
+  "fields": {
+    "case_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "case_type": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "entity_type": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "entity_id": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "proposed_opportunity_id": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "evidence_source_id": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "reason": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "current_json": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "proposed_json": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    },
+    "status": {
+      "type": "text",
+      "nullable": true,
+      "enum": [
+        "pending",
+        "confirmed",
+        "rejected"
+      ],
+      "temporal_scope": "audit"
+    },
+    "last_decision_id": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "audit"
+    }
+  }
+}

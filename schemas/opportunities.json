@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0.0",
+  "table": "opportunities",
+  "primary_key": "opportunity_id",
+  "foreign_keys": {
+    "outcome_source_id": "sources"
+  },
+  "input_allowed": true,
+  "fields": {
+    "opportunity_id": {
+      "type": "text",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "created_at": {
+      "type": "time",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "status": {
+      "type": "text",
+      "nullable": false,
+      "enum": [
+        "open",
+        "won",
+        "lost",
+        "needs_review"
+      ],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "converted": {
+      "type": "bool",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "outcome_at": {
+      "type": "time",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "outcome_source_id": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "outcome_basis": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "initial_destination": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "final_destination": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "requested_scope_initial": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "sold_scope": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "sale_extent": {
+      "type": "text",
+      "nullable": true,
+      "enum": [
+        "full",
+        "partial",
+        "unknown"
+      ],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "final_sale_amount": {
+      "type": "decimal",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "final_sale_currency": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "exclude_from_training": {
+      "type": "bool",
+      "nullable": false,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "exclusion_reason": {
+      "type": "text",
+      "nullable": true,
+      "enum": [],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    },
+    "review_status": {
+      "type": "text",
+      "nullable": false,
+      "enum": [
+        "pending",
+        "verified",
+        "not_applicable"
+      ],
+      "temporal_scope": "descriptive_or_outcome_not_feature"
+    }
+  }
+}

@@ -1,0 +1,5 @@
+opportunity_id,created_at,status,converted,outcome_at,outcome_source_id,outcome_basis,initial_destination,final_destination,requested_scope_initial,sold_scope,sale_extent,final_sale_amount,final_sale_currency,exclude_from_training,exclusion_reason,review_status
+OP_DEMO_1,2025-02-01,open,,,,,,,package,,,,,0,,verified
+OP_DEMO_2,2025-02-01,open,,,,,,,hotel_only,,,,,0,,verified
+OP_DEMO_3,2025-02-01,open,,,,,,,hotel_only,,,,,0,,verified
+OP_DEMO_4,2025-02-01,open,,,,,,,hotel_only,,,,,0,,verified
