@@ -67,7 +67,8 @@ with tab:
                     st.session_state['f_'+key]=value
                 st.session_state.pdf_warnings=extracted.avisos
                 st.session_state.pdf_fields=list(extracted.campos)
-                st.session_state.pdf_prices=extracted.opciones_precio
+                # Compatibilidad con objetos creados antes de una recarga del módulo.
+                st.session_state.pdf_prices=getattr(extracted,'opciones_precio',[])
                 st.session_state.pop('pdf_price_choice',None)
                 st.session_state.upload_generation+=1
                 st.session_state.pop('prediction',None)
@@ -139,8 +140,17 @@ with tab:
     if st.session_state.get('prediction'):
         p=st.session_state.prediction
         color={'Bajo':'#16845a','Medio':'#ad7100','Alto':'#cd4343'}[p['level']]
-        st.markdown(f'<div class="score"><div class="eyebrow">ÚLTIMA EVALUACIÓN · RIESGO RELATIVO</div><h2 style="color:{color}">● {p["level"]}</h2><h3>Por encima del {p["percentile"]:.0f}% de las abiertas de referencia</h3><p>Score mayor que {p["below"]} de {p["total"]} cotizaciones. Referencia congelada al {p["reference_cutoff"]}.</p></div>',unsafe_allow_html=True)
-        st.warning('No es una probabilidad de pérdida. El ranking y el semáforo tampoco están validados para decisiones comerciales. Si cambiás datos, volvé a evaluar.')
+        titulo,explicacion,sugerencia={
+            'Alto':('Riesgo alto de no concretarse','El modelo ubica esta propuesta entre las de mayor riesgo de no terminar en venta. No significa que esté perdida.','Preguntale al cliente qué necesita para avanzar y acordá cuándo volver a hablar. No descartes la oportunidad por este color.'),
+            'Medio':('Riesgo intermedio de no concretarse','El modelo ubica esta propuesta en una posición intermedia: no da una señal clara a favor ni en contra de la venta.','Confirmá si la propuesta se ajusta a lo que busca el cliente y acordá un próximo paso.'),
+            'Bajo':('Riesgo bajo de no concretarse','Es la señal más favorable del semáforo: el modelo ve menos riesgo que en otras propuestas. No significa que la venta esté asegurada.','Mantené el seguimiento y consultá si necesita algo para decidir. No la marques como ganada hasta que la venta esté confirmada.')
+        }[p['level']]
+        st.markdown(f'<div class="score"><div class="eyebrow">¿QUÉ SIGNIFICA PARA VOS?</div><h2 style="color:{color}">● {titulo}</h2><p>{explicacion}</p><h3>Cómo seguir la conversación</h3><p>{sugerencia}</p></div>',unsafe_allow_html=True)
+        st.caption('Las sugerencias son pautas generales de atención; el modelo no identifica por qué un cliente compraría o dejaría de comprar.')
+        st.warning('Herramienta en prueba: el color es orientativo, no garantiza una venta ni una pérdida. Usá también lo que te cuenta el cliente. Si cambiás los datos, volvé a evaluar.')
+        with st.expander('Ver cómo se calculó el color'):
+            st.write(f'El riesgo calculado supera al de {p["below"]} de las {p["total"]} cotizaciones de referencia ({p["percentile"]:.0f}%). No es un porcentaje de probabilidad de pérdida. Referencia al {p["reference_cutoff"]}.')
+            st.caption('Bajo, medio y alto representan tres tramos de posición relativa. Todavía no están validados para decisiones comerciales.')
         for warning in p['warnings']:st.info(warning)
 with history:
     st.subheader('El seguimiento empieza acá')
