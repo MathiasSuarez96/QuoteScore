@@ -1,0 +1,8 @@
+# App local. El pipeline CLI de la Entrega 1 sigue usando biblioteca estándar.
+streamlit==1.67.0
+pandas==3.1.1
+scikit-learn==1.9.1
+numpy==2.5.4
+joblib==1.6.0
+pypdf==7.0.0
+tzdata==2026.6

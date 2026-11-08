@@ -1,5 +1,13 @@
 # QuoteScore
 
+## Predictor experimental y app local
+
+Ahora incluye una interfaz Streamlit para leer cotizaciones PDF, revisar campos sugeridos, evaluar con regresión logística y guardar oportunidades con historial de resultados. Usa logos y tipografía locales. El semáforo compara posiciones frente a una referencia congelada: **no es una probabilidad calibrada ni un predictor validado comercialmente**.
+
+Instalá `requirements-app.txt` en el entorno virtual y seguí [la guía de la app](docs/local_app.md) para preparar tu modelo privado. Después ejecutá `iniciar_app.cmd`. El repositorio contiene código y pruebas artificiales; los PDF reales, datasets y el modelo entrenado permanecen fuera de Git.
+
+Para ejecutar toda la suite, incluidas las pruebas del lector PDF, instalá primero `requirements-app.txt`. La base original y su demo siguen usando la biblioteca estándar.
+
 Iniciativa personal de práctica y portfolio para organizar oportunidades de viaje y estudiar, más adelante, su conversión en ventas. **Entrega 1: base local funcionando con datos artificiales. Todavía no existe un score validado.** No es un encargo ni una entrega académica de una institución o empresa.
 
 La unidad de trabajo es una necesidad concreta de viaje. Una oportunidad puede tener varias propuestas, alternativas, componentes y transacciones. Comprar una parte cuenta como conversión; cambiar destino manteniendo el mismo viaje conserva la oportunidad. La reconstrucción inicial usa únicamente información acreditada al enviar la primera cotización con precio.
