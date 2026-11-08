@@ -10,6 +10,7 @@ from modelo import cargar_modelo, evaluar, carpeta_privada
 from src.data.app_store import guardar, listar, actualizar_resultado
 
 ROOT = Path(__file__).resolve().parent
+DEMO = globals().get('QUOTESCORE_DEMO',False) is True
 st.set_page_config(page_title='Predictor de Cotizaciones · QuoteScore', page_icon='✈️', layout='wide')
 today = datetime.now(ZoneInfo('America/Montevideo')).date()
 PDF_DEFAULTS=dict(destino='',producto='Paquete',fecha_viaje=None,fecha_regreso=None,pax=None,menores=None,monto=None,moneda='USD',alcance='unknown')
@@ -35,12 +36,17 @@ if font.exists():
     encoded=base64.b64encode(font.read_bytes()).decode()
     st.markdown(f'<style>@font-face{{font-family:Poppins;src:url(data:font/ttf;base64,{encoded})}}html,body,[class*="css"],.stApp,h1,h2,h3,p,button,label{{font-family:Poppins,sans-serif!important}}</style>',unsafe_allow_html=True)
 st.markdown('<div class="logos"><strong style="color:#0080ff;font-size:26px">QuoteScore</strong><span style="color:#60738c;font-size:13px">Proyecto personal</span></div>',unsafe_allow_html=True)
-st.markdown('<div class="hero"><div class="eyebrow">TUS COTIZACIONES, MÁS CLARAS</div><h1>Predictor de Cotizaciones</h1><p>Del PDF al seguimiento. Revisá una propuesta, explorá su posición y guardá lo que sabés desde el primer día.</p><span class="badge">MODELO EXPERIMENTAL · USO LOCAL</span></div>',unsafe_allow_html=True)
+badge='DEMO PÚBLICA · DATOS FICTICIOS' if DEMO else 'MODELO EXPERIMENTAL · USO LOCAL'
+st.markdown(f'<div class="hero"><div class="eyebrow">TUS COTIZACIONES, MÁS CLARAS</div><h1>Predictor de Cotizaciones</h1><p>Del PDF al seguimiento. Revisá una propuesta, explorá su posición y guardá lo que sabés desde el primer día.</p><span class="badge">{badge}</span></div>',unsafe_allow_html=True)
+if DEMO:
+    from demo_publica import cargar_demo,ejemplos,guardar_demo,listar_demo,actualizar_demo
+    guardar,listar,actualizar_resultado=guardar_demo,listar_demo,actualizar_demo
+    st.info('Estás viendo un proyecto personal de portfolio. El modelo aprende de ejemplos inventados: sus resultados no predicen ventas reales. Probá el recorrido sin datos de clientes.')
 try:
-    bundle=cargar_modelo()
+    bundle=cargar_demo() if DEMO else cargar_modelo()
 except (ValueError, OSError) as exc:
     st.error(str(exc)); st.info('Prepará el modelo siguiendo docs/local_app.md.'); st.stop()
-root=carpeta_privada()/'store'
+root=None if DEMO else carpeta_privada()/'store'
 if 'token' not in st.session_state:
     st.session_state.token=str(uuid4())
 if 'upload_generation' not in st.session_state:
@@ -52,11 +58,19 @@ with tab:
     with left:
         st.subheader('01 · Cargá tu propuesta')
         st.write('Un PDF de texto alcanza para empezar. Vos confirmás los datos antes de evaluar.')
-        uploaded=st.file_uploader('PDF de cotización',type=['pdf'],key=f'pdf_{st.session_state.upload_generation}')
-        if st.button('Leer PDF',disabled=uploaded is None,use_container_width=True):
+        demo_bytes=None
+        uploaded=None
+        if DEMO:
+            samples=ejemplos(today)
+            sample=st.selectbox('Elegí una cotización ficticia',list(samples))
+            demo_bytes=samples[sample]
+            st.download_button('Descargar PDF de ejemplo',demo_bytes,file_name='quotescore-ejemplo.pdf',mime='application/pdf')
+        else:
+            uploaded=st.file_uploader('PDF de cotización',type=['pdf'],key=f'pdf_{st.session_state.upload_generation}')
+        if st.button('Leer PDF de ejemplo' if DEMO else 'Leer PDF',disabled=uploaded is None and demo_bytes is None,use_container_width=True):
             try:
-                with st.spinner('Leyendo el PDF en esta computadora…'):
-                    extracted=extraer_pdf(uploaded.getvalue())
+                with st.spinner('Leyendo el PDF…'):
+                    extracted=extraer_pdf(demo_bytes if DEMO else uploaded.getvalue())
                 for key,value in PDF_DEFAULTS.items():
                     st.session_state['f_'+key]=value
                 st.session_state.f_confirmed=False
@@ -73,7 +87,7 @@ with tab:
                 st.rerun()
             except ValueError as exc:
                 st.error(str(exc))
-        st.caption('El PDF se procesa en memoria. No se guarda ni se envía a servicios externos. No hay OCR para capturas o escaneos.')
+        st.caption('La demo procesa solo los PDF ficticios incluidos, en memoria del servidor. No admite documentos de clientes.' if DEMO else 'El PDF se procesa en memoria. No se guarda ni se envía a servicios externos. No hay OCR para capturas o escaneos.')
         if 'pdf_fields' in st.session_state:
             labels=dict(destino='destino',producto='producto',fecha_viaje='salida',fecha_regreso='regreso',pax='pasajeros',menores='menores',monto='monto',moneda='moneda',alcance='alcance del precio',puntos='puntos')
             detected=st.session_state.pdf_fields
@@ -84,7 +98,7 @@ with tab:
             missing=[labels[k] for k in ('destino','producto','fecha_viaje','pax','menores','monto') if k not in detected]
             if missing:st.caption('No se pudo leer: '+', '.join(missing)+'.')
             st.info('Ahora revisá los datos completados, agregá los pendientes, confirmá la primera propuesta y pulsá Evaluar. Leer PDF no ejecuta el modelo.')
-            st.caption('El archivo se retiró del cargador después de leerlo. Para leer otro, usá Upload.')
+            st.caption('Podés elegir otro ejemplo y volver a leerlo.' if DEMO else 'El archivo se retiró del cargador después de leerlo. Para leer otro, usá Upload.')
         for warning in st.session_state.get('pdf_warnings',[]):
             st.info(warning)
         prices=st.session_state.get('pdf_prices',[])
@@ -145,18 +159,19 @@ with tab:
         }[p['level']]
         st.markdown(f'<div class="score"><div class="eyebrow">¿QUÉ SIGNIFICA PARA VOS?</div><h2 style="color:{color}">● {titulo}</h2><p>{explicacion}</p><h3>Cómo seguir la conversación</h3><p>{sugerencia}</p></div>',unsafe_allow_html=True)
         st.caption('Las sugerencias son pautas generales de atención; el modelo no identifica por qué un cliente compraría o dejaría de comprar.')
-        st.warning('Herramienta en prueba: el color es orientativo, no garantiza una venta ni una pérdida. Usá también lo que te cuenta el cliente. Si cambiás los datos, volvé a evaluar.')
+        st.warning('Resultado de demostración basado en datos inventados. Este color no estima el riesgo de una venta real.' if DEMO else 'Herramienta en prueba: el color es orientativo, no garantiza una venta ni una pérdida. Usá también lo que te cuenta el cliente. Si cambiás los datos, volvé a evaluar.')
         with st.expander('Ver cómo se calculó el color'):
             st.write(f'El riesgo calculado supera al de {p["below"]} de las {p["total"]} cotizaciones de referencia ({p["percentile"]:.0f}%). No es un porcentaje de probabilidad de pérdida. Referencia al {p["reference_cutoff"]}.')
             st.caption('Bajo, medio y alto representan tres tramos de posición relativa. Todavía no están validados para decisiones comerciales.')
         for warning in p['warnings']:st.info(warning)
 with history:
     st.subheader('El seguimiento empieza acá')
+    if DEMO:st.caption('Solo tus ejemplos de esta sesión. Se procesan en el servidor y pueden perderse al recargar o desconectarte. No ingreses datos reales.')
     rows=listar(root)
     a,b,c=st.columns(3)
     a.metric('Abiertas',sum(r['resultado']=='Abierta' for r in rows));b.metric('Ganadas',sum(r['resultado']=='Ganada' for r in rows));c.metric('Perdidas',sum(r['resultado']=='Perdida' for r in rows))
     if not rows:
-        st.info('Todavía no guardaste cotizaciones en esta app. Tus registros históricos se conservan por separado.')
+        st.info('Todavía no guardaste ejemplos en esta sesión.' if DEMO else 'Todavía no guardaste cotizaciones en esta app. Tus registros históricos se conservan por separado.')
     else:
         st.dataframe(rows,use_container_width=True,hide_index=True)
         with st.form('outcome'):
@@ -176,12 +191,12 @@ with history:
 with about:
     meta=bundle['metadata']
     st.subheader('Una prueba para aprender')
-    st.write(f'Regresión logística · {meta["training_rows"]} casos históricos · {meta["reference_count"]} abiertas de referencia.')
+    st.write(f'Regresión logística · {meta["training_rows"]} casos '+('sintéticos' if DEMO else 'históricos')+f' · {meta["reference_count"]} ejemplos de referencia.')
     st.write('El semáforo divide la posición relativa en tres tramos: bajo (menos de 33⅓), medio y alto (desde 66⅔). No son umbrales comerciales.')
     for limitation in meta['limitations']:st.write('• '+limitation)
     st.write('Guardar nuevas oportunidades no reentrena el modelo. Primero habrá que revisar sus resultados y validar una nueva versión.')
-    st.caption('Código: app.py = pantalla; extraer_pdf.py = sugerencias del PDF; modelo.py = carga y evaluación. Los CSV y el modelo quedan fuera del repositorio.')
-st.caption('QuoteScore · Proyecto personal · Tus datos permanecen en esta computadora')
+    st.caption('Demo pública: modelo sintético generado en memoria; ejemplos guardados solo en tu sesión.' if DEMO else 'Código: app.py = pantalla; extraer_pdf.py = sugerencias del PDF; modelo.py = carga y evaluación. Los CSV y el modelo quedan fuera del repositorio.')
+st.caption('QuoteScore · Proyecto personal · Demo sintética procesada en el servidor, sin almacenamiento permanente de tus ejemplos' if DEMO else 'QuoteScore · Proyecto personal · Tus datos permanecen en esta computadora')
 st.markdown('''<div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:16px 0 8px;color:#60738c;font-size:12px">
 <span>by</span><a href="https://github.com/MathiasSuarez96" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:7px;color:#60738c;text-decoration:none" aria-label="GitHub de MathiasSuarez96">
 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297C5.37.297 0 5.67 0 12.297c0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.043-1.61-4.043-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.838 1.237 1.838 1.237 1.07 1.835 2.809 1.305 3.495.998.108-.776.418-1.305.762-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.31.469-2.381 1.236-3.221-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.301 1.23a11.52 11.52 0 0 1 3.003-.404c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.654 1.653.243 2.873.119 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.015 2.898-.015 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.597 24 12.297c0-6.627-5.373-12-12-12"/></svg>

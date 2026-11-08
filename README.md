@@ -2,6 +2,8 @@
 
 ## Predictor experimental y app local
 
+La [demo pública](docs/public_demo.md) se ejecuta desde `cloud/streamlit_app.py`: utiliza datos sintéticos y ejemplos por sesión, sin acceder a datos comerciales. Para publicarla, usar esa entrada; `app.py` es la versión de trabajo local.
+
 Ahora incluye una interfaz Streamlit para leer cotizaciones PDF, revisar campos sugeridos, evaluar con regresión logística y guardar oportunidades con historial de resultados. Usa logos y tipografía locales. El semáforo compara posiciones frente a una referencia congelada: **no es una probabilidad calibrada ni un predictor validado comercialmente**.
 
 Instalá `requirements-app.txt` en el entorno virtual y seguí [la guía de la app](docs/local_app.md) para preparar tu modelo privado. Después ejecutá `iniciar_app.cmd`. El repositorio contiene código y pruebas artificiales; los PDF reales, datasets y el modelo entrenado permanecen fuera de Git.

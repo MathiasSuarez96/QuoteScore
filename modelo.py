@@ -131,7 +131,7 @@ def evaluar(datos, bundle):
     dest = frame.iloc[0]['destino_norm']
     if dest not in bundle['known_destinations']:
         warnings.append('Este destino no aparece en el entrenamiento; la comparación tiene mayor incertidumbre.')
-    if datos.get('producto') == 'Hotel':
+    if datos.get('producto') == 'Hotel' and not bundle['metadata'].get('synthetic',False):
         warnings.append('El entrenamiento no contiene hoteles perdidos. Un score bajo puede reflejar ese sesgo.')
     if datos.get('canal') and str(datos['canal']).strip().lower() not in bundle['known_channels']:
         warnings.append('Este canal no aparece con la misma etiqueta en el entrenamiento.')
