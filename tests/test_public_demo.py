@@ -14,6 +14,7 @@ class PublicDemoTests(unittest.TestCase):
             next(b for b in a.button if b.label=='Leer PDF de ejemplo').click().run()
             self.assertFalse(a.exception)
             self.assertEqual(a.number_input(key='f_pax').value,3)
+            self.assertEqual(a.number_input(key='f_menores').value,1)
             a.checkbox(key='f_confirmed').check()
             next(b for b in a.button if b.label=='Evaluar y guardar').click().run()
             self.assertFalse(a.exception)
@@ -34,7 +35,8 @@ class PublicDemoTests(unittest.TestCase):
         from datetime import date
         samples=ejemplos(date(2026,11,8))
         self.assertEqual(len(samples),3)
-        for content in samples.values():
+        for content,kids in zip(samples.values(),(1,0,2)):
             fields=extraer_pdf(content).campos
+            self.assertEqual(fields['menores'],kids)
             for key in ('destino','producto','fecha_viaje','fecha_regreso','pax','menores','monto'):
                 self.assertIn(key,fields)

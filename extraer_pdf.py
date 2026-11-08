@@ -140,9 +140,9 @@ def enriquecer_plantilla(texto, resultado):
     elif len(set(ranges))>1:
         campos.pop('fecha_viaje',None);campos.pop('fecha_regreso',None)
         resultado.avisos.append('Hay varios rangos de viaje: confirmá las fechas.')
-    totals={int(x) for x in re.findall(r'\b(\d{1,3})\s+pasajeros\b',header)}
-    adults={int(x) for x in re.findall(r'\b(\d{1,3})\s+adultos?\b',header)}
-    children={int(x) for x in re.findall(r'\b(\d{1,2})\s+(?:menores?|ninos?|ninas?)\b',header)}
+    totals={int(x) for x in re.findall(r'\b(\d{1,3})[ \t]+pasajeros\b',header)}
+    adults={int(x) for x in re.findall(r'\b(\d{1,3})[ \t]+adultos?\b',header)}
+    children={int(x) for x in re.findall(r'\b(\d{1,2})[ \t]+(?:menores?|ninos?|ninas?)\b',header)}
     if len(totals)==1:campos['pax']=next(iter(totals))
     if len(children)==1:campos['menores']=next(iter(children))
     if len(adults)==1:
