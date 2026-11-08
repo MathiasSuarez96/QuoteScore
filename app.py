@@ -10,11 +10,9 @@ from modelo import cargar_modelo, evaluar, carpeta_privada
 from src.data.app_store import guardar, listar, actualizar_resultado
 
 ROOT = Path(__file__).resolve().parent
-st.set_page_config(page_title='Predictor de Cotizaciones · TocToc', page_icon='✈️', layout='wide')
+st.set_page_config(page_title='Predictor de Cotizaciones · QuoteScore', page_icon='✈️', layout='wide')
 today = datetime.now(ZoneInfo('America/Montevideo')).date()
 PDF_DEFAULTS=dict(destino='',producto='Paquete',fecha_viaje=None,fecha_regreso=None,pax=None,menores=None,monto=None,moneda='USD',alcance='unknown')
-def image_data(name):
-    return 'data:image/png;base64,' + base64.b64encode((ROOT/'assets'/name).read_bytes()).decode()
 
 st.markdown('''<style>
 .stApp {background:#f3f8ff;color:#172b4d}
@@ -36,7 +34,7 @@ font=ROOT/'assets'/'Poppins-Regular.ttf'
 if font.exists():
     encoded=base64.b64encode(font.read_bytes()).decode()
     st.markdown(f'<style>@font-face{{font-family:Poppins;src:url(data:font/ttf;base64,{encoded})}}html,body,[class*="css"],.stApp,h1,h2,h3,p,button,label{{font-family:Poppins,sans-serif!important}}</style>',unsafe_allow_html=True)
-st.markdown(f'<div class="logos"><img src="{image_data("toctoc-logo.png")}" alt="TocToc Viajes"><img src="{image_data("santander-logo.png")}" alt="Viajes Soy Santander"></div>',unsafe_allow_html=True)
+st.markdown('<div class="logos"><strong style="color:#0080ff;font-size:26px">QuoteScore</strong><span style="color:#60738c;font-size:13px">Proyecto personal</span></div>',unsafe_allow_html=True)
 st.markdown('<div class="hero"><div class="eyebrow">TUS COTIZACIONES, MÁS CLARAS</div><h1>Predictor de Cotizaciones</h1><p>Del PDF al seguimiento. Revisá una propuesta, explorá su posición y guardá lo que sabés desde el primer día.</p><span class="badge">MODELO EXPERIMENTAL · USO LOCAL</span></div>',unsafe_allow_html=True)
 try:
     bundle=cargar_modelo()
@@ -183,4 +181,8 @@ with about:
     for limitation in meta['limitations']:st.write('• '+limitation)
     st.write('Guardar nuevas oportunidades no reentrena el modelo. Primero habrá que revisar sus resultados y validar una nueva versión.')
     st.caption('Código: app.py = pantalla; extraer_pdf.py = sugerencias del PDF; modelo.py = carga y evaluación. Los CSV y el modelo quedan fuera del repositorio.')
-st.caption('TocToc Viajes · Prototipo local de QuoteScore · Tus datos permanecen en esta computadora')
+st.caption('QuoteScore · Proyecto personal · Tus datos permanecen en esta computadora')
+st.markdown('''<div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:16px 0 8px;color:#60738c;font-size:12px">
+<span>by</span><a href="https://github.com/MathiasSuarez96" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:7px;color:#60738c;text-decoration:none" aria-label="GitHub de MathiasSuarez96">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297C5.37.297 0 5.67 0 12.297c0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.043-1.61-4.043-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.838 1.237 1.838 1.237 1.07 1.835 2.809 1.305 3.495.998.108-.776.418-1.305.762-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.31.469-2.381 1.236-3.221-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.301 1.23a11.52 11.52 0 0 1 3.003-.404c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.654 1.653.243 2.873.119 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.015 2.898-.015 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.597 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+<span>MathiasSuarez96</span></a></div>''',unsafe_allow_html=True)
