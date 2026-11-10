@@ -79,7 +79,7 @@ Clave: `quote_id`. Entrada admitida.
 | version_number | integer | sí | initial_requires_evidence | — |
 | first_priced_quote_status | text | no | initial_requires_evidence | confirmed, candidate, unknown |
 | channel_at_quote | text | sí | initial_requires_evidence | web, whatsapp, branch, phone, other |
-| lead_source_at_quote | text | sí | initial_requires_evidence | santander_web, referral, other |
+| lead_source_at_quote | text | sí | initial_requires_evidence | website, referral, other |
 | request_type_at_quote | text | sí | initial_requires_evidence | quote_request, purchase_error, other |
 | preselected_product_at_quote | bool | sí | initial_requires_evidence | — |
 | repeat_customer_at_quote | bool | sí | initial_requires_evidence | — |

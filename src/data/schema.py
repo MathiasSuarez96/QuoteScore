@@ -43,7 +43,7 @@ ENUMS = {
     "date_precision": ("day", "timestamp", "unknown"),
     "time_precision": ("day", "timestamp", "unknown"),
     "channel_at_quote": ("web", "whatsapp", "branch", "phone", "other"),
-    "lead_source_at_quote": ("santander_web", "referral", "other"),
+    "lead_source_at_quote": ("website", "referral", "other"),
     "request_type_at_quote": ("quote_request", "purchase_error", "other"),
     "price_scope": ("group", "per_person", "component", "unknown"),
     "component_type": ("flight", "hotel", "transfer", "insurance", "excursion", "event_ticket", "other"),

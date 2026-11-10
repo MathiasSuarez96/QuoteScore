@@ -170,7 +170,7 @@ def enriquecer_plantilla(texto, resultado):
         for key in ('monto','moneda','alcance'):campos.pop(key,None)
         resultado.opciones_precio=prices
         resultado.avisos.append('Hay varios precios totales. Elegí el de la alternativa que querés evaluar.')
-    if prices and re.search(r'saldo a pagar|total a abonar|con puntos santander:',normal):
+    if prices and re.search(r'saldo a pagar|total a abonar|con puntos(?:[^:\n]*)?:',normal):
         resultado.avisos.append('El precio sugerido es el total antes del descuento por puntos; el saldo a abonar no lo reemplaza.')
     if 'fecha_regreso' in campos:
         resultado.avisos.append('Regreso usa el final del rango de viaje del encabezado; la llegada a origen puede ser al día siguiente.')

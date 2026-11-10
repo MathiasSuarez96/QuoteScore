@@ -23,7 +23,7 @@ def pdf(text=''):
 class LocalAppTests(unittest.TestCase):
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name)/'store'
-        self.d=dict(destino='Aruba',producto='Paquete',fecha_cotizacion='2026-01-01',fecha_viaje='2026-12-01',fecha_regreso=None,pax=2,menores=0,canal='whatsapp toctoc',puntos='No',monto=None,moneda='USD',alcance='unknown',primera_confirmada=True)
+        self.d=dict(destino='Aruba',producto='Paquete',fecha_cotizacion='2026-01-01',fecha_viaje='2026-12-01',fecha_regreso=None,pax=2,menores=0,canal='whatsapp',puntos='No',monto=None,moneda='USD',alcance='unknown',primera_confirmada=True)
     def tearDown(self):self.tmp.cleanup()
     def test_pdf_one_option(self):
         e=extraer_pdf(pdf('Paquete Aruba\nPasajeros: 2\nMenores: 0\nSalida: 01/12/2026\nPrecio total: USD 1.500,50'))

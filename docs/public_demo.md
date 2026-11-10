@@ -1,5 +1,7 @@
 # Demo pública de QuoteScore
 
+**Demo publicada:** https://quotescore-ecewfmkqdzuqi8xxzq9g5a.streamlit.app/
+
 Entrada para hosting: `cloud/streamlit_app.py`. La entrada `app.py` sigue siendo la versión de trabajo privada y no debe desplegarse directamente.
 
 ## Contenido público
@@ -31,3 +33,7 @@ Una vez desplegada, verificar carga inicial, lectura de los tres ejemplos, evalu
 ## Texto para compartir
 
 Desarrollé QuoteScore, un proyecto personal en Python que convierte cotizaciones PDF en datos estructurados y permite explorar un modelo experimental de clasificación. Incluye revisión de campos, evaluación y seguimiento de resultados. Esta demo pública utiliza datos ficticios y muestra el flujo técnico; no predice ventas reales. La validación con datos confirmados sigue en desarrollo.
+
+## Compatibilidad de importación
+
+Las fuentes web usan ahora la categoría genérica `website`. En copias de trabajo antiguas, revisar los valores de `lead_source_at_quote` antes de importar; no se migran almacenes privados automáticamente. La columna de puntos puede llamarse `puntos` o `puntos del programa`.

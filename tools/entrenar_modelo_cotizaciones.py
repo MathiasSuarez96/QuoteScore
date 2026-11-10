@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Predictor de cotizaciones perdidas (Viajes Soy Santander / TocToc).
+QuoteScore: predictor experimental de cotizaciones perdidas.
 
 Qué hace
 --------
@@ -26,7 +26,7 @@ Columnas esperadas (los alias entre paréntesis también sirven)
     id, resultado (estado), fecha_cotizacion (1er contacto),
     fecha_ultimo_contacto (ficha actualizada), fecha_viaje (inicio viaje),
     canal (canal de entrada), producto, destino, pax, menores,
-    monto (monto (usd)), puntos (puntos santander)
+    monto (monto (usd)), puntos (puntos del programa)
 
 Reglas de datos
 ---------------
@@ -70,7 +70,7 @@ ALIAS = {
     "pax": ["pax"],
     "menores": ["menores"],
     "monto": ["monto", "monto (usd)", "monto cotizado"],
-    "puntos": ["puntos", "puntos santander"],
+    "puntos": ["puntos", "puntos del programa"],
 }
 
 RESULTADOS = {

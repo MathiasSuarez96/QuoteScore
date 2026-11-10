@@ -5,7 +5,7 @@ from extraer_pdf import extraer_texto
 
 class TemplateTests(unittest.TestCase):
     def test_header_destination_before_airport(self):
-        e=extraer_texto('Arraial do Cabo\nDel 11 al 18 de enero de 2028 · 2 adultos\n¿Por qué viajar?\nVuelo a Río de Janeiro\nEl paquete incluye aéreo y hotel\nTOTAL · 2 PASAJEROS\nUSD 2.400\nPOR PERSONA\nUSD 1.200\nPagá con puntos Santander')
+        e=extraer_texto('Arraial do Cabo\nDel 11 al 18 de enero de 2028 · 2 adultos\n¿Por qué viajar?\nVuelo a Río de Janeiro\nEl paquete incluye aéreo y hotel\nTOTAL · 2 PASAJEROS\nUSD 2.400\nPOR PERSONA\nUSD 1.200\nPagá con puntos del programa')
         self.assertEqual(e.campos['destino'],'Arraial do Cabo')
         self.assertEqual(e.campos['fecha_viaje'],date(2028,1,11))
         self.assertEqual(e.campos['menores'],0)
@@ -27,7 +27,7 @@ class TemplateTests(unittest.TestCase):
         self.assertNotIn('monto',e.campos)
         self.assertEqual(len(e.opciones_precio),2)
     def test_missing_year_not_guessed(self):
-        e=extraer_texto('Aruba\n10 al 17 de enero\n4 pasajeros\nViaje para toda la familia con puntos Santander')
+        e=extraer_texto('Aruba\n10 al 17 de enero\n4 pasajeros\nViaje para toda la familia con puntos del programa')
         self.assertNotIn('fecha_viaje',e.campos)
         self.assertNotIn('menores',e.campos)
         self.assertNotIn('puntos',e.campos)

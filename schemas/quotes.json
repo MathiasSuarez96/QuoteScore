@@ -68,7 +68,7 @@
       "type": "text",
       "nullable": true,
       "enum": [
-        "santander_web",
+        "website",
         "referral",
         "other"
       ],
