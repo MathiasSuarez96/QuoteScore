@@ -28,3 +28,6 @@ private/**
 data/**
 reports/**
 *.bak
+
+.streamlit/secrets.toml
+*cloud-secret*

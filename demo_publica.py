@@ -75,7 +75,7 @@ def guardar_demo(_root,datos,prediccion,token):
 def listar_demo(_root):
     return [dict(id=token,fecha_cotizacion=r['input']['fecha_cotizacion'],destino=r['input']['destino'],
         producto=r['input']['producto'],pasajeros=r['input'].get('pax'),resultado=r['resultado'],
-        fecha_resultado=r['fecha_resultado'],nivel=r['prediction']['level'],modelo='demo-sintetica-v1')
+        fecha_resultado=r['fecha_resultado'],nivel=r['prediction']['level'],modelo=r['prediction']['model_version'])
         for token,r in reversed(list(st.session_state.get('demo_records',{}).items()))]
 
 

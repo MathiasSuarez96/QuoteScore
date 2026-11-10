@@ -11,6 +11,8 @@ from src.data.app_store import guardar, listar, actualizar_resultado
 
 ROOT = Path(__file__).resolve().parent
 DEMO = globals().get('QUOTESCORE_DEMO',False) is True
+CLOUD = globals().get('QUOTESCORE_CLOUD',False) is True
+PUBLIC = DEMO or CLOUD
 st.set_page_config(page_title='Predictor de Cotizaciones · QuoteScore', page_icon='✈️', layout='wide')
 today = datetime.now(ZoneInfo('America/Montevideo')).date()
 PDF_DEFAULTS=dict(destino='',producto='Paquete',fecha_viaje=None,fecha_regreso=None,pax=None,menores=None,monto=None,moneda='USD',alcance='unknown')
@@ -36,17 +38,21 @@ if font.exists():
     encoded=base64.b64encode(font.read_bytes()).decode()
     st.markdown(f'<style>@font-face{{font-family:Poppins;src:url(data:font/ttf;base64,{encoded})}}html,body,[class*="css"],.stApp,h1,h2,h3,p,button,label{{font-family:Poppins,sans-serif!important}}</style>',unsafe_allow_html=True)
 st.markdown('<div class="logos"><strong style="color:#0080ff;font-size:26px">QuoteScore</strong><span style="color:#60738c;font-size:13px">Proyecto personal</span></div>',unsafe_allow_html=True)
-badge='DEMO PÚBLICA · DATOS FICTICIOS' if DEMO else 'MODELO EXPERIMENTAL · USO LOCAL'
+badge='MODELO EXPERIMENTAL · PROYECTO PERSONAL' if CLOUD else ('DEMO PÚBLICA · DATOS FICTICIOS' if DEMO else 'MODELO EXPERIMENTAL · USO LOCAL')
 st.markdown(f'<div class="hero"><div class="eyebrow">TUS COTIZACIONES, MÁS CLARAS</div><h1>Predictor de Cotizaciones</h1><p>Del PDF al seguimiento. Revisá una propuesta, explorá su posición y guardá lo que sabés desde el primer día.</p><span class="badge">{badge}</span></div>',unsafe_allow_html=True)
-if DEMO:
+if PUBLIC:
     from demo_publica import cargar_demo,ejemplos,guardar_demo,listar_demo,actualizar_demo
     guardar,listar,actualizar_resultado=guardar_demo,listar_demo,actualizar_demo
+if DEMO:
     st.info('Estás viendo un proyecto personal de portfolio. El modelo aprende de ejemplos inventados: sus resultados no predicen ventas reales. Probá el recorrido sin datos de clientes.')
+if CLOUD:
+    from cloud_model import cargar_cloud
+    st.info('Proyecto personal con un modelo entrenado en casos históricos. La evaluación es experimental: no es una probabilidad validada de venta. Subí solo documentos sin datos personales.')
 try:
-    bundle=cargar_demo() if DEMO else cargar_modelo()
+    bundle=cargar_cloud() if CLOUD else (cargar_demo() if DEMO else cargar_modelo())
 except (ValueError, OSError) as exc:
-    st.error(str(exc)); st.info('Prepará el modelo siguiendo docs/local_app.md.'); st.stop()
-root=None if DEMO else carpeta_privada()/'store'
+    st.error('No se pudo cargar el modelo del servidor.' if CLOUD else str(exc)); st.info('Revisá la configuración privada del modelo.' if CLOUD else 'Prepará el modelo siguiendo docs/local_app.md.'); st.stop()
+root=None if PUBLIC else carpeta_privada()/'store'
 if 'token' not in st.session_state:
     st.session_state.token=str(uuid4())
 if 'upload_generation' not in st.session_state:
@@ -66,8 +72,12 @@ with tab:
             demo_bytes=samples[sample]
             st.download_button('Descargar PDF de ejemplo',demo_bytes,file_name='quotescore-ejemplo.pdf',mime='application/pdf')
         else:
-            uploaded=st.file_uploader('PDF de cotización',type=['pdf'],key=f'pdf_{st.session_state.upload_generation}')
-        if st.button('Leer PDF de ejemplo' if DEMO else 'Leer PDF',disabled=uploaded is None and demo_bytes is None,use_container_width=True):
+            consent=True
+            if CLOUD:
+                st.caption('El PDF se envía al servidor de Streamlit para extraer sus campos. La app no lo guarda en disco ni lo usa para entrenar. No subas nombres, documentos, teléfonos, correos ni localizadores.')
+                consent=st.checkbox('Revisé que el PDF no contiene datos personales y acepto procesarlo en el servidor.',key='pdf_consent')
+            uploaded=st.file_uploader('PDF de cotización',type=['pdf'],key=f'pdf_{st.session_state.upload_generation}',disabled=not consent)
+        if st.button('Leer PDF de ejemplo' if DEMO else 'Leer PDF',disabled=(uploaded is None and demo_bytes is None) or (CLOUD and not consent),use_container_width=True):
             try:
                 with st.spinner('Leyendo el PDF…'):
                     extracted=extraer_pdf(demo_bytes if DEMO else uploaded.getvalue())
@@ -87,7 +97,7 @@ with tab:
                 st.rerun()
             except ValueError as exc:
                 st.error(str(exc))
-        st.caption('La demo procesa solo los PDF ficticios incluidos, en memoria del servidor. No admite documentos de clientes.' if DEMO else 'El PDF se procesa en memoria. No se guarda ni se envía a servicios externos. No hay OCR para capturas o escaneos.')
+        st.caption('Procesamiento en memoria del servidor. Sin OCR para capturas o escaneos. Los registros duran solo tu sesión.' if CLOUD else 'La demo procesa solo los PDF ficticios incluidos, en memoria del servidor. No admite documentos de clientes.' if DEMO else 'El PDF se procesa en memoria. No se guarda ni se envía a servicios externos. No hay OCR para capturas o escaneos.')
         if 'pdf_fields' in st.session_state:
             labels=dict(destino='destino',producto='producto',fecha_viaje='salida',fecha_regreso='regreso',pax='pasajeros',menores='menores',monto='monto',moneda='moneda',alcance='alcance del precio',puntos='puntos')
             detected=st.session_state.pdf_fields
@@ -166,6 +176,7 @@ with tab:
         for warning in p['warnings']:st.info(warning)
 with history:
     st.subheader('El seguimiento empieza acá')
+    if PUBLIC:st.caption('Solo los registros de esta sesión. No se comparten con otros visitantes ni se conservan permanentemente. No ingreses datos personales.')
     if DEMO:st.caption('Solo tus ejemplos de esta sesión. Se procesan en el servidor y pueden perderse al recargar o desconectarte. No ingreses datos reales.')
     rows=listar(root)
     a,b,c=st.columns(3)
@@ -191,12 +202,15 @@ with history:
 with about:
     meta=bundle['metadata']
     st.subheader('Una prueba para aprender')
-    st.write(f'Regresión logística · {meta["training_rows"]} casos '+('sintéticos' if DEMO else 'históricos')+f' · {meta["reference_count"]} ejemplos de referencia.')
+    if CLOUD:
+        st.write('Regresión logística entrenada previamente con casos históricos. El modelo del servidor no se reentrena con tus documentos. Sus parámetros están configurados fuera del repositorio público.')
+    else:
+        st.write(f'Regresión logística · {meta["training_rows"]} casos '+('sintéticos' if DEMO else 'históricos')+f' · {meta["reference_count"]} ejemplos de referencia.')
     st.write('El semáforo divide la posición relativa en tres tramos: bajo (menos de 33⅓), medio y alto (desde 66⅔). No son umbrales comerciales.')
     for limitation in meta['limitations']:st.write('• '+limitation)
     st.write('Guardar nuevas oportunidades no reentrena el modelo. Primero habrá que revisar sus resultados y validar una nueva versión.')
-    st.caption('Demo pública: modelo sintético generado en memoria; ejemplos guardados solo en tu sesión.' if DEMO else 'Código: app.py = pantalla; extraer_pdf.py = sugerencias del PDF; modelo.py = carga y evaluación. Los CSV y el modelo quedan fuera del repositorio.')
-st.caption('QuoteScore · Proyecto personal · Demo sintética procesada en el servidor, sin almacenamiento permanente de tus ejemplos' if DEMO else 'QuoteScore · Proyecto personal · Tus datos permanecen en esta computadora')
+    st.caption('Modelo histórico experimental. Archivos procesados en memoria del servidor; registros aislados por sesión.' if CLOUD else 'Demo pública: modelo sintético generado en memoria; ejemplos guardados solo en tu sesión.' if DEMO else 'Código: app.py = pantalla; extraer_pdf.py = sugerencias del PDF; modelo.py = carga y evaluación. Los CSV y el modelo quedan fuera del repositorio.')
+st.caption('QuoteScore · Proyecto personal · Procesado en Streamlit · Registros temporales por sesión' if CLOUD else 'QuoteScore · Proyecto personal · Demo sintética procesada en el servidor, sin almacenamiento permanente de tus ejemplos' if DEMO else 'QuoteScore · Proyecto personal · Tus datos permanecen en esta computadora')
 st.markdown('''<div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:16px 0 8px;color:#60738c;font-size:12px">
 <span>by</span><a href="https://github.com/MathiasSuarez96" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:7px;color:#60738c;text-decoration:none" aria-label="GitHub de MathiasSuarez96">
 <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .297C5.37.297 0 5.67 0 12.297c0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.043-1.61-4.043-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.838 1.237 1.838 1.237 1.07 1.835 2.809 1.305 3.495.998.108-.776.418-1.305.762-1.605-2.665-.305-5.467-1.334-5.467-5.931 0-1.31.469-2.381 1.236-3.221-.124-.303-.535-1.523.117-3.176 0 0 1.008-.322 3.301 1.23a11.52 11.52 0 0 1 3.003-.404c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.654 1.653.243 2.873.119 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.015 2.898-.015 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.597 24 12.297c0-6.627-5.373-12-12-12"/></svg>
